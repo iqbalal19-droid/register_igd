@@ -9,15 +9,19 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "secretkey123"
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
-if app.config['SQLALCHEMY_DATABASE_URI'].startswith("postgres://"):
-    app.config['SQLALCHEMY_DATABASE_URI'] = app.config['SQLALCHEMY_DATABASE_URI'].replace(
-        "postgres://", "postgresql://", 1
-    )
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# ===== DATABASE CONFIG (Railway + Local) =====
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+else:
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
-
 # ================= DATABASE =================
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -317,8 +321,5 @@ def export(id):
 
     return send_file(filename, as_attachment=True)
 
-with app.app_context():
-    db.create_all()
-
-# ===== Railway fix =====
+# ===== Railway config =====
 app.config['PREFERRED_URL_SCHEME'] = 'https'
