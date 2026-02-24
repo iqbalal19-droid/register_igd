@@ -45,7 +45,9 @@ class Patient(db.Model):
 # ================= HOME =================
 @app.route('/')
 def home():
-    return redirect('/login', code=302)
+    if 'user' in session:
+        return redirect('/register_patient')
+    return redirect('/login')
 
 # ================= REGISTER USER =================
 @app.route('/register', methods=['GET', 'POST'])
