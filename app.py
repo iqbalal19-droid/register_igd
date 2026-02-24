@@ -328,9 +328,5 @@ app.config['PREFERRED_URL_SCHEME'] = 'https'
 def test():
     return "OK"
 
-# ===== RUN SERVER =====
-if __name__ == "__main__":
-    import os
-
-    port = int(os.environ.get("PORT", 8080))
-    app.run(host="0.0.0.0", port=port)
+with app.app_context():
+    db.create_all()
