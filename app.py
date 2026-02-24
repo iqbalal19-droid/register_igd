@@ -323,3 +323,7 @@ def export(id):
 
 # ===== Railway config =====
 app.config['PREFERRED_URL_SCHEME'] = 'https'
+
+@app.route("/test")
+def test():
+    return "OK"
