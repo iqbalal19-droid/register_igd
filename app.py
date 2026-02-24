@@ -10,6 +10,10 @@ import os
 app = Flask(__name__)
 app.secret_key = "secretkey123"
 
+@app.route("/")
+def home():
+    return "Register IGD running ✅"
+
 # ===== DATABASE CONFIG (Railway + Local) =====
 DATABASE_URL = os.getenv("DATABASE_URL")
 
