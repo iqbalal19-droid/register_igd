@@ -319,3 +319,6 @@ def export(id):
 
 with app.app_context():
     db.create_all()
+
+# ===== Railway fix =====
+app.config['PREFERRED_URL_SCHEME'] = 'https'
