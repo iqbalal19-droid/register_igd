@@ -45,7 +45,7 @@ class Patient(db.Model):
 # ================= HOME =================
 @app.route('/')
 def home():
-    return "REGISTER IGD ONLINE ✅ SERVER HIDUP"
+    return redirect('/login', code=302)
 
 # ================= REGISTER USER =================
 @app.route('/register', methods=['GET', 'POST'])
